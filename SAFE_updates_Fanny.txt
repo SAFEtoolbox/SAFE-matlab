@@ -1,0 +1,167 @@
+11/2017
+ 
+EET_indices
+
+- Header
+	- Reference to Campolongo et al. (2007) for EET index in header
+	- Note for treatment of NaNs
+
+- Build-in function (compute_indices) that discards NaNs
+
+- Warning message when NaNs are found.
+
+- Change in the calculation of 'sigma'. For this two changes were made:
+
+	1. L151 and 164: remove the 'abs' function for the calculation of the EEs 
+	(we calculate the actual EEs and not their absolute value):
+
+	EE(i,j) = abs( Y(k+1) - Y(ki) ) / abs( X(k+1,j)-X(ki,j) )*Dr(j) ;
+	is replaced by
+	EE(i,j) = ( Y(k+1) - Y(ki) ) / ( X(k+1,j)-X(ki,j) )*Dr(j) ;
+
+	2. L253: add the 'abs' function in the calculation of 'mi' in the function 'compute_indices':
+
+	mi(j)   = mean(EE(~nan_EE,j));
+	is replaced by
+	mi(j)   = mean(abs(EE(~nan_EE,j)));
+
+-----------------------------------------------------------------------------------------------------------------------------
+11/2017
+EET_convergence
+
+- Header: Note for treatment of NaNs
+
+- Warning message when NaNs are found and print values of the indices for each sample size as in vbsa_convergence
+
+- as in EET_indices, add the 'abs' function in the calculation of 'mi' in the function 'compute_indices' (L.205)
+(the input EE is the actual EEs and not their absolute value)
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/2017
+vbsa_indices
+
+- Header: Note for treatment of NaNs
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/2017
+vbsa_convergence
+
+- Header: Note for treatment of NaNs
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/2017
+pawn_exclude_NaN
+
+- new function that discards NaNs values in conditional and unconditional samples.
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/2017
+pawn_cdf
+
+Note: If for one conditioning values all output values are NaNs (let say YY{i,k}), FC{i,k} as returned by pawn_cdf will be empty. 
+
+- Header: 
+	- Note for treatment of NaNs
+	- Change of the notations for input/output sizes
+
+- L91: call pawn_exclude_NaN to discard NaNs and select the output idx.
+
+- L105: add the condition if ~isempty(YY{i,k}) so that the function does not crash if all output values for one conditioning values are NaNs
+
+- L121: add the condition if ~isempty(YY{i,k}) so that the function does not crash if all output values for one conditioning values are NaNs
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/2017
+pawn_plot_cdf 
+
+- Header: Note for treatment of empty conditional CDFs.
+
+- L75: add the condition if ~isempty(YY{i,k}) so that the function does not crash if all output values for one conditioning values are NaNs
+
+- L119: identify and discard empty conditional CDFs
+
+- L132-133: change color scheme so that the last line is not white.
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/2017
+pawn_indices
+
+- Header: Note for treatment of NaNs
+
+- L151: call pawn_exclude_NaN to discard NaNs and select the output idx.
+
+- L155: compute the actual size of the unconditional sample NU after exclusion of NaNs to perform bootstrapping
+
+- L171: compute the actual size of the conditional sample NUik after exclusion of NaNs to perform bootstrapping
+
+- L204: replace ks = pawn_ks(YF, FU, FC); by  ks = pawn_ks(YF, FU, FC,output_condition,par);
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/2017
+pawn_ks
+
+- Header: Note for treatment of empty conditional CDFs.
+
+- L100 and L138: add the condition if ~isempty(YY{i,k}) so that the function does not crash if all output values for one conditioning values are NaNs
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/2017
+plot_cdf 
+
+- Add note for treatment of NaN values.
+
+- L59: remove NaNs: y = y(~isnan(y));
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+11/2017
+Question
+
+- SHOULD EET_CONVERGENCE AND VBSA_CONVERGENCE PRINT ALL INDICES AND WARNING MESSAGE FOR NANS FOR ALL SAMPLE SIZES? WHAT ABOUT PAWN?
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+02/10/2018
+AAT_sampling
+
+L77: replace 'tinv' by 't'
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+19/11/2018
+
+- Hymod_structure.pdf: correct units of Rs and Rf ([1/Dt] instead of [-])
+
+- parcoor: improve the formatting for the parameter ranges (L 46 and L160-161)
+
+- plt_pdf: correct the normalisation of the pdf L76
+
+- AAT_sampling_extend L replace 'tinv' by 't' L99, 138
+
+- lhcube_shrink: L94-95 comment dd=min(pdist(Xi)) and uncomment dd=(ipdm(Xi,'metric',2)); dd=min(dd(dd>0));
+(consistency with the other functions)
+
+- lhcube: add comment L76-77
+
+- Morris_orientation_matrix: correct comment L 74 (Bstar is of size (M+1, M) and not (r+1, M))
+
+- OAT_sampling: do not return matrix 'AB' as output argument (the result is wrong when inputs are discrete uniform and resampling is performed)
+
+- RSA_thres_indices: correct range reduction index 'irr' L258 and correct the calculation of 'idxb' when boostrapping is used (L203-206)
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+30/11/2018
+
+- Change the name of the function 'model_evaluation' by 'model_execution' (and modify the name in the workflows)
+
+- hymod_max.m, hymod_MulObj.m, hymod_nse.m and hymod_sim: Revise the help of the functions 
+
+- hymod_max.m, hymod_MulObj.m, hymod_nse.m: add the the warmup period as an input arguments of  (and modify the workflows accordingly)
+
+- hymod_nse.m: correct the calculation of NSE
+
+- boxplot1 and boxplot2: revise the limits which are set for the y-axis (allow for sensitivity indices to be higher than 1, which can occur with EET)
+
