@@ -1,0 +1,37 @@
+%% Description of SWAT_samples.mat %%
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+%% Simulation time horizon: %%
+
+01/01/2001 - 31/12/2005
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%% Variable description: %%
+
+
+Xrsa_ext: parameter sample 
+Yrsa_ext: output sample
+	Yrsa_ext(:,1): absolute mean error for streamflow
+	Yrsa_ext(:,2): NSE for streamflow (used in convergence paper)
+	Yrsa_ext(:,3): BIAS for streamflow
+	Yrsa_ext(:,4): RMSE for streamflow
+	
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%% Parameter description %%
+
+
+X_Labels_swat={ 'ALPHA-BF A','ALPHA-BF U','ALPHA-BF F','ALPHA-BF P','ALPHA-BF R','BIOMIX','BLAI','CANMAX','CH-K2','CH-N2','CN2 A','CN2 U','CN2 F','CN2 P','CN2 R',...
+    'EPCO','ESCO','GW-DELAY','GW-REVAP','GWQMN A','GWQMN U','GWQMN F','GWQMN P','GWQMN R','RCHRG-DP A','RCHRG-DP U','RCHRG-DP F','RCHRG-DP P','RCHRG-DP R',...
+    'REVAPMN','SFTMP','SLOPE A','SLOPE U','SLOPE F','SLOPE P','SLOPE R','SLSUBBSN','SMFMN','SMFMX','SMTMP','SOL-ALB','SOL-AWC','SOL-K A','SOL-K U','SOL-K F','SOL-K P','SOL-K R','SURLAG','TLAPS','TIMP'} ; % input names
+
+xmin=[0	0	0	0	0	0	0.5	0	0.5	0	-50	-50	-50	-50	-50	0.1	0	1	0.02	10	10	10	10	10	0	0	0	0	0	1	-5	0	0	0	0	0	10	0	0	-5	0	-25	0	0	0	0	0	0.5	-10	0];
+xmax=[1	1	1	1	1	1	10	10	150	0.3	25	25	25	25	25	1	1	60	0.2	500	500	500	500	500	1	1	1	1	1	500	5	1	1	1	1	1	150	10	10	5	0.25	60	2000	2000	2000	2000	2000	10	10	1];
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%% Sampling strategy %%
+
+The sample was created using:
+- a LH sample of size 20,000 (first 20,000 rows of the Qs_ext,Xrsa_ext and Yrsa_ext)
+- an additional sample of size 10,000 using the function AAT_sampling_extend of SAFE (last 10,000 rows of the Qs_ext,Xrsa_ext and Yrsa_ext)
