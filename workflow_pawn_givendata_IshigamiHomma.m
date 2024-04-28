@@ -48,14 +48,14 @@ STi_ex
 % Tailored sampling (Pianosi and Wagener, 2015):
 Nu = 150; Nc = 50; n =3;
 Xu = AAT_sampling('lhs',M,DistrFun,DistrPar,Nu); % matrix (NU,M)
-Yu = model_evaluation(fun_test,Xu)  ; % vector (1,M)
+Yu = model_execution(fun_test,Xu)  ; % vector (1,M)
 [ XX, xc ] = pawn_sampling('lhs',M,DistrFun,DistrPar,n,Nc); % XX= (M,n)
-YY = pawn_model_evaluation(fun_test,XX)  ; % vector (1,M)
+YY = pawn_model_execution(fun_test,XX)  ; % vector (1,M)
 
 % Generic sampling + splitting (Pianosi and Wagener, 2018):
 N = 150; n = 3;
 X = AAT_sampling('lhs',M,DistrFun,DistrPar,N);
-Y = model_evaluation(fun_test,X)  ;
+Y = model_execution(fun_test,X)  ;
 [KS,KS_dummy,YF,Fu,Fc,YY2,xc2,NC,XX2,YU,idx_bootstrap] = pawn_ks_givendata(X,Y,n);
 
 
@@ -171,7 +171,7 @@ for jj= 1:length(NN)
     PAWN_median{jj} = nan(length(nn),M) ;
     for k = 1:length(nn)
         X = AAT_sampling('lhs',M,DistrFun,DistrPar,NN(jj));
-        Y = model_evaluation(fun_test,X)  ;
+        Y = model_execution(fun_test,X)  ;
         nboot = 50;
         [KS_median,KS_mean,KS_max,KS_dummy] = pawn_indices_givendata(X,Y,nn(k),nboot) ;
         median_lb = sort(KS_median) ; median_lb = median_lb(max(1,round(nboot*alfa/2)),:);
