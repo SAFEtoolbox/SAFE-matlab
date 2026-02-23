@@ -77,7 +77,7 @@ warmup = 30 ; % lenght of model warmup period (days)
 
 % Run the model and compute selected model output at sampled parameter
 % sets:
-Qsim = model_execution(myfun,X,rain,evap,warmup) ;
+Qsim = model_execution(myfun,X,rain,evap) ;
 % Check size of 'Qsim':
 size(Qsim)
 
@@ -96,7 +96,7 @@ xlabel('time (days)'); ylabel('flow (m3/s)')
 addpath('GLUE')
 
 % Compute Root Mean Squared Error for each time series:
-Y = RMSE(Qsim,flow') ;
+Y = RMSE(Qsim(:,warmup:end),flow(warmup:end)') ;
 % Check size of 'Y':
 size(Y)
 
@@ -145,5 +145,4 @@ scatter_plots(X,Y,[],'RMSE',X_Labels,idx)
 
 % Parallel coordinate plots:
 parcoor(X,X_Labels,[],idx);
-
 
